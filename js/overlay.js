@@ -1,14 +1,5 @@
 "use strict";
 
-/*
-  ####   ####  #    #  ####  #####
- #    # #    # ##   # #        #
- #      #    # # #  #  ####    #
- #      #    # #  # #      #   #
- #    # #    # #   ## #    #   #
-  ####   ####  #    #  ####    #
-*/
-
 const { ipcRenderer, shell } = require("electron");
 
 const loadTheme = require("../modules/loadTheme.js");
@@ -19,15 +10,6 @@ const SearchManager = require("../modules/SearchManager/SearchManager.js");
 const HistoryManager = require("../modules/HistoryManager/HistoryManager.js");
 const DownloadManager = require("../modules/DownloadManager/DownloadManager.js");
 
-/*
-  ####  ######   ##   #####   ####  #    #
- #      #       #  #  #    # #    # #    #
-  ####  #####  #    # #    # #      ######
-      # #      ###### #####  #      #    #
- #    # #      #    # #   #  #    # #    #
-  ####  ###### #    # #    #  ####  #    #
-*/
-
 let searchManager = new SearchManager(
   document.getElementById('search-input'), 
   document.getElementById('search-suggest'), 
@@ -35,15 +17,6 @@ let searchManager = new SearchManager(
   document.getElementById('search-engines'),
   document.getElementById('clear-search-btn')
 );
-
-/*
- #####   ####   ####  #    # #    #   ##   #####  #    #  ####
- #    # #    # #    # #   #  ##  ##  #  #  #    # #   #  #
- #####  #    # #    # ####   # ## # #    # #    # ####    ####
- #    # #    # #    # #  #   #    # ###### #####  #  #        #
- #    # #    # #    # #   #  #    # #    # #   #  #   #  #    #
- #####   ####   ####  #    # #    # #    # #    # #    #  ####
-*/
 
 let bookmarkManager = new BookmarkManager(document.getElementById("bookmarks-container"));
 
@@ -100,15 +73,6 @@ bookmarkManager.on("update-bookmarked", (exists, id) => {
   ipcRenderer.send("main-updateBookmarkedButton", exists, id);
 });
 
-/*
- #    # #  ####  #####  ####  #####  #   #
- #    # # #        #   #    # #    #  # #
- ###### #  ####    #   #    # #    #   #
- #    # #      #   #   #    # #####    #
- #    # # #    #   #   #    # #   #    #
- #    # #  ####    #    ####  #    #   #
-*/
-
 let historyManager = new HistoryManager(document.getElementById("history-container"));
 
 historyManager.on("history-item-added", () => {
@@ -131,15 +95,6 @@ historyManager.on("history-cleared", () => {
 historyManager.on("history-already-cleared", () => {
   ipcRenderer.send("main-addStatusNotif", { text: "History already cleared", type: "info" });
 });
-
-/*
- #####   ####  #    # #    # #       ####    ##   #####   ####
- #    # #    # #    # ##   # #      #    #  #  #  #    # #
- #    # #    # #    # # #  # #      #    # #    # #    #  ####
- #    # #    # # ## # #  # # #      #    # ###### #    #      #
- #    # #    # ##  ## #   ## #      #    # #    # #    # #    #
- #####   ####  #    # #    # ######  ####  #    # #####   ####
-*/
 
 let downloadManager = new DownloadManager(document.getElementById("downloads-container"));
 
@@ -164,15 +119,6 @@ downloadManager.on("downloads-already-cleared", () => {
   ipcRenderer.send("main-addStatusNotif", { text: "Downloads already cleared", type: "info" });
 });
 
-/*
- ###### #    # #    #  ####               ####  ######   ##   #####   ####  #    #
- #      #    # ##   # #    #             #      #       #  #  #    # #    # #    #
- #####  #    # # #  # #         #####     ####  #####  #    # #    # #      ######
- #      #    # #  # # #                       # #      ###### #####  #      #    #
- #      #    # #   ## #    #             #    # #      #    # #   #  #    # #    #
- #       ####  #    #  ####               ####  ###### #    # #    #  ####  #    #
-*/
-
 function goSearch() {
   searchManager.navigateSuggest(document.getElementById("search-input").value);
 }
@@ -180,15 +126,6 @@ function goSearch() {
 function clearSearch() {
   searchManager.clearSearch();
 }
-
-/*
- ###### #    # #    #  ####              #####   ####   ####  #    # #    #   ##   #####  #    #  ####
- #      #    # ##   # #    #             #    # #    # #    # #   #  ##  ##  #  #  #    # #   #  #
- #####  #    # # #  # #         #####    #####  #    # #    # ####   # ## # #    # #    # ####    ####
- #      #    # #  # # #                  #    # #    # #    # #  #   #    # ###### #####  #  #        #
- #      #    # #   ## #    #             #    # #    # #    # #   #  #    # #    # #   #  #   #  #    #
- #       ####  #    #  ####              #####   ####   ####  #    # #    # #    # #    # #    #  ####
-*/
 
 function newFolder() {
   bookmarkManager.newFolder();
@@ -202,29 +139,11 @@ function toggleArrange() {
   bookmarkManager.toggleArrange();
 }
 
-/*
- ###### #    # #    #  ####              ##### #    # ###### #    # ######  ####
- #      #    # ##   # #    #               #   #    # #      ##  ## #      #
- #####  #    # # #  # #         #####      #   ###### #####  # ## # #####   ####
- #      #    # #  # # #                    #   #    # #      #    # #           #
- #      #    # #   ## #    #               #   #    # #      #    # #      #    #
- #       ####  #    #  ####                #   #    # ###### #    # ######  ####
-*/
-
 function updateTheme() {
   loadTheme().then(({ theme, dark }) => {
     applyTheme(theme, dark);
   });
 }
-
-/*
- ###### #    # #    #  ####              #    # #  ####  #####  ####  #####  #   #
- #      #    # ##   # #    #             #    # # #        #   #    # #    #  # #
- #####  #    # # #  # #         #####    ###### #  ####    #   #    # #    #   #
- #      #    # #  # # #                  #    # #      #   #   #    # #####    #
- #      #    # #   ## #    #             #    # # #    #   #   #    # #   #    #
- #       ####  #    #  ####              #    # #  ####    #    ####  #    #   #
-*/
 
 function clearHistory() {
   historyManager.askClearHistory();
@@ -241,15 +160,6 @@ function loadMoreHistory() {
 function collapseHistory() {
   historyManager.setLimiter(true);
 }
-
-/*
- ###### #    # #    #  ####              #####   ####  #    # #    # #       ####    ##   #####   ####
- #      #    # ##   # #    #             #    # #    # #    # ##   # #      #    #  #  #  #    # #
- #####  #    # # #  # #         #####    #    # #    # #    # # #  # #      #    # #    # #    #  ####
- #      #    # #  # # #                  #    # #    # # ## # #  # # #      #    # ###### #    #      #
- #      #    # #   ## #    #             #    # #    # ##  ## #   ## #      #    # #    # #    # #    #
- #       ####  #    #  ####              #####   ####  #    # #    # ######  ####  #    # #####   ####
-*/
 
 function showItemInFolder(path) {
   shell.showItemInFolder(path);
@@ -287,27 +197,9 @@ function collapseDownloads() {
   downloadManager.setLimiter(true);
 }
 
-/*                                                                                           
-  ###### #    # #    #  ####              #####   ##   #####      ####  #####   ####  #    # #####   ####  
-  #      #    # ##   # #    #               #    #  #  #    #    #    # #    # #    # #    # #    # #      
-  #####  #    # # #  # #         #####      #   #    # #####     #      #    # #    # #    # #    #  ####  
-  #      #    # #  # # #                    #   ###### #    #    #  ### #####  #    # #    # #####       # 
-  #      #    # #   ## #    #               #   #    # #    #    #    # #   #  #    # #    # #      #    # 
-  #       ####  #    #  ####                #   #    # #####      ####  #    #  ####   ####  #       ####  
-*/
-
 function switchTabGroup(number) {
   ipcRenderer.send("tabManager-switchTabGroup", number);
 }
-
-/*
- # #####   ####               ####  ######   ##   #####   ####  #    #
- # #    # #    #             #      #       #  #  #    # #    # #    #
- # #    # #         #####     ####  #####  #    # #    # #      ######
- # #####  #                       # #      ###### #####  #      #    #
- # #      #    #             #    # #      #    # #   #  #    # #    #
- # #       ####               ####  ###### #    # #    #  ####  #    #
-*/
 
 ipcRenderer.on("searchManager-goToSearch", (event, text, cursorPos) => {
   searchManager.goToSearch(text, cursorPos);
@@ -321,29 +213,11 @@ ipcRenderer.on("searchManager-setSearchEngine", (event, engine) => {
   searchManager.setSearchEngine(engine);
 });
 
-/*
- # #####   ####               ####  #    # ###### #####  #        ##   #   #
- # #    # #    #             #    # #    # #      #    # #       #  #   # #
- # #    # #         #####    #    # #    # #####  #    # #      #    #   #
- # #####  #                  #    # #    # #      #####  #      ######   #
- # #      #    #             #    #  #  #  #      #   #  #      #    #   #
- # #       ####               ####    ##   ###### #    # ###### #    #   #
-*/
-
 ipcRenderer.on("overlay-scrollToId", (event, id) => {
   document.getElementById(id).scrollIntoView({
     behavior: "smooth"
   });
 });
-
-/*
- # #####   ####              #####   ####   ####  #    # #    #   ##   #####  #    #  ####
- # #    # #    #             #    # #    # #    # #   #  ##  ##  #  #  #    # #   #  #
- # #    # #         #####    #####  #    # #    # ####   # ## # #    # #    # ####    ####
- # #####  #                  #    # #    # #    # #  #   #    # ###### #####  #  #        #
- # #      #    #             #    # #    # #    # #   #  #    # #    # #   #  #   #  #    #
- # #       ####              #####   ####   ####  #    # #    # #    # #    # #    #  ####
-*/
 
 ipcRenderer.on("bookmarkManager-addBookmark", (event, name, url) => {
   bookmarkManager.getDefaultFolder().addBookmark(name, url);
@@ -365,15 +239,6 @@ ipcRenderer.on("bookmarkManager-showBookmarkOptions", (event, id) => {
   bookmarkManager.showBookmarkOptions(id);
 });
 
-/*
- # #####   ####              #    # #  ####  #####  ####  #####  #   #
- # #    # #    #             #    # # #        #   #    # #    #  # #
- # #    # #         #####    ###### #  ####    #   #    # #    #   #
- # #####  #                  #    # #      #   #   #    # #####    #
- # #      #    #             #    # # #    #   #   #    # #   #    #
- # #       ####              #    # #  ####    #    ####  #    #   #
-*/
-
 ipcRenderer.on("historyManager-insertBeforeHistoryItem", (event, url) => {
   historyManager.insertBeforeHistoryItem(url);
 });
@@ -382,27 +247,9 @@ ipcRenderer.on("historyManager-clearHistory", (event, text) => {
   historyManager.clearHistory();
 });
 
-/*
- # #####   ####              ##### #    # ###### #    # ######  ####
- # #    # #    #               #   #    # #      ##  ## #      #
- # #    # #         #####      #   ###### #####  # ## # #####   ####
- # #####  #                    #   #    # #      #    # #           #
- # #      #    #               #   #    # #      #    # #      #    #
- # #       ####                #   #    # ###### #    # ######  ####
-*/
-
 ipcRenderer.on("overlay-updateTheme", (event) => {
   updateTheme();
 });
-
-/*
- # #####   ####              #####   ####  #    # #    # #       ####    ##   #####   ####
- # #    # #    #             #    # #    # #    # ##   # #      #    #  #  #  #    # #
- # #    # #         #####    #    # #    # #    # # #  # #      #    # #    # #    #  ####
- # #####  #                  #    # #    # # ## # #  # # #      #    # ###### #    #      #
- # #      #    #             #    # #    # ##  ## #   ## #      #    # #    # #    # #    #
- # #       ####              #####   ####  #    # #    # ######  ####  #    # #####   ####
-*/
 
 ipcRenderer.on("downloadManager-createDownload", (event, download) => {
   downloadManager.appendDownload(true, download.id, download.name, download.url, download.time);
@@ -432,15 +279,6 @@ ipcRenderer.on("downloadManager-clearDownloads", (event, text) => {
   downloadManager.clearDownloads();
 });
 
-/*                                                             
-  # #####   ####              #####   ##   #####      ####  #####   ####  #    # #####   ####  
-  # #    # #    #               #    #  #  #    #    #    # #    # #    # #    # #    # #      
-  # #    # #         #####      #   #    # #####     #      #    # #    # #    # #    #  ####  
-  # #####  #                    #   ###### #    #    #  ### #####  #    # #    # #####       # 
-  # #      #    #               #   #    # #    #    #    # #   #  #    # #    # #      #    # 
-  # #       ####                #   #    # #####      ####  #    #  ####   ####  #       ####  
-*/
-
 ipcRenderer.on("overlay-switchTabGroup", (event, tabGroupId) => {
   let groups = [
     document.getElementById("group-0"),
@@ -460,15 +298,6 @@ ipcRenderer.on("overlay-switchTabGroup", (event, tabGroupId) => {
   }
 });
 
-/*
- # #    # # #####
- # ##   # #   #
- # # #  # #   #
- # #  # # #   #
- # #   ## #   #
- # #    # #   #
-*/
-
 function init() {
   updateTheme();
 
@@ -486,12 +315,3 @@ document.onreadystatechange = () => {
       init();
   }
 }
-
-/*
- ##### #    # ######    ###### #    # #####
-   #   #    # #         #      ##   # #    #
-   #   ###### #####     #####  # #  # #    #
-   #   #    # #         #      #  # # #    #
-   #   #    # #         #      #   ## #    #
-   #   #    # ######    ###### #    # #####
-*/

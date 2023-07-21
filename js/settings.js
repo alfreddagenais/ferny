@@ -1,14 +1,5 @@
 "use strict";
 
-/*
- #####  ######  ####  #    # # #####  ######
- #    # #      #    # #    # # #    # #
- #    # #####  #    # #    # # #    # #####
- #####  #      #  # # #    # # #####  #
- #   #  #      #   #  #    # # #   #  #
- #    # ######  ### #  ####  # #    # ######
-*/
-
 const { ipcRenderer } = require("electron");
 // const dialog = require("electron").remote.dialog;
 const ppath = require("persist-path")("Ferny");
@@ -26,15 +17,6 @@ const loadSearchEngineModule = require("../modules/loadSearchEngine.js");
 const loadStartupModule = require("../modules/loadStartup.js");
 const loadTabClosedModule = require("../modules/loadTabClosed.js");
 const loadWinControlsModule = require("../modules/loadWinControls.js");
-
-/*
- ###### #    # #    #  ####              ##### #    # ###### #    # ######  ####
- #      #    # ##   # #    #               #   #    # #      ##  ## #      #
- #####  #    # # #  # #         #####      #   ###### #####  # ## # #####   ####
- #      #    # #  # # #                    #   #    # #      #    # #           #
- #      #    # #   ## #    #               #   #    # #      #    # #      #    #
- #       ####  #    #  ####                #   #    # ###### #    # ######  ####
-*/
 
 function updateTheme() {
   loadTheme().then(({ theme, dark }) => {
@@ -118,27 +100,9 @@ function requestTheme(theme, dark) {
   });
 }
 
-/*
- ###### #    # #    #  ####              #    # # #    # #####   ####  #    #
- #      #    # ##   # #    #             #    # # ##   # #    # #    # #    #
- #####  #    # # #  # #         #####    #    # # # #  # #    # #    # #    #
- #      #    # #  # # #                  # ## # # #  # # #    # #    # # ## #
- #      #    # #   ## #    #             ##  ## # #   ## #    # #    # ##  ##
- #       ####  #    #  ####              #    # # #    # #####   ####  #    #
-*/
-
 function closeWindow() {
   ipcRenderer.send("settings-closeWindow");
 }
-
-/*
- ###### #    # #    #  ####               ####  ######   ##   #####   ####  #    #    ###### #    #  ####  # #    # ######
- #      #    # ##   # #    #             #      #       #  #  #    # #    # #    #    #      ##   # #    # # ##   # #
- #####  #    # # #  # #         #####     ####  #####  #    # #    # #      ######    #####  # #  # #      # # #  # #####
- #      #    # #  # # #                       # #      ###### #####  #      #    #    #      #  # # #  ### # #  # # #
- #      #    # #   ## #    #             #    # #      #    # #   #  #    # #    #    #      #   ## #    # # #   ## #
- #       ####  #    #  ####               ####  ###### #    # #    #  ####  #    #    ###### #    #  ####  # #    # ######
-*/
 
 function requestSearchEngine(engine) {
   saveFileToJsonFolder(null, "search-engine", engine).then(function(bool) {
@@ -158,15 +122,6 @@ function loadSearchEngine() {
     }
   });
 }
-
-/*
- ###### #    # #    #  ####              #####   ####  #    # #    # #       ####    ##   #####   ####
- #      #    # ##   # #    #             #    # #    # #    # ##   # #      #    #  #  #  #    # #
- #####  #    # # #  # #         #####    #    # #    # #    # # #  # #      #    # #    # #    #  ####
- #      #    # #  # # #                  #    # #    # # ## # #  # # #      #    # ###### #    #      #
- #      #    # #   ## #    #             #    # #    # ##  ## #   ## #      #    # #    # #    # #    #
- #       ####  #    #  ####              #####   ####  #    # #    # ######  ####  #    # #####   ####
-*/
 
 function requestDownloadsFolder(folder) {
   if(folder === "?custom-folder?") {
@@ -205,15 +160,6 @@ function openDownloadsFolder() {
   ipcRenderer.send("main-openDownloadsFolder");
 }
 
-/*
- ###### #    # #    #  ####              #####   ##   #####      ####  #       ####   ####  ###### #####
- #      #    # ##   # #    #               #    #  #  #    #    #    # #      #    # #      #      #    #
- #####  #    # # #  # #         #####      #   #    # #####     #      #      #    #  ####  #####  #    #
- #      #    # #  # # #                    #   ###### #    #    #      #      #    #      # #      #    #
- #      #    # #   ## #    #               #   #    # #    #    #    # #      #    # #    # #      #    #
- #       ####  #    #  ####                #   #    # #####      ####  ######  ####   ####  ###### #####
-*/
-
 function requestTabClosed(tabClosed) {
   saveFileToJsonFolder(null, "tabclosed", tabClosed).then(function(bool) {
     ipcRenderer.send("tabManager-setTabClosedAction", tabClosed);
@@ -233,15 +179,6 @@ function loadTabClosed() {
   });
 }
 
-/*
- ###### #    # #    #  ####              #        ##    ####  #####    #####   ##   #####
- #      #    # ##   # #    #             #       #  #  #        #        #    #  #  #    #
- #####  #    # # #  # #         #####    #      #    #  ####    #        #   #    # #####
- #      #    # #  # # #                  #      ######      #   #        #   ###### #    #
- #      #    # #   ## #    #             #      #    # #    #   #        #   #    # #    #
- #       ####  #    #  ####              ###### #    #  ####    #        #   #    # #####
-*/
-
 function requestLastTab(lastTab) {
   saveFileToJsonFolder(null, "lasttab", lastTab).then(function(bool) {
     ipcRenderer.send("main-addStatusNotif", { text: "Last tab closed action changed", type: "success" });
@@ -260,15 +197,6 @@ function loadLastTab() {
   });
 }
 
-/*
- ###### #    # #    #  ####               ####  #####   ##   #####  ##### #    # #####
- #      #    # ##   # #    #             #        #    #  #  #    #   #   #    # #    #
- #####  #    # # #  # #         #####     ####    #   #    # #    #   #   #    # #    #
- #      #    # #  # # #                       #   #   ###### #####    #   #    # #####
- #      #    # #   ## #    #             #    #   #   #    # #   #    #   #    # #
- #       ####  #    #  ####               ####    #   #    # #    #   #    ####  #
-*/
-
 function requestStartup(startup) {
   saveFileToJsonFolder(null, "startup", startup).then(() => {
     ipcRenderer.send("main-addStatusNotif", { text: "Startup action changed", type: "success" });
@@ -286,15 +214,6 @@ function loadStartup() {
     }
   });
 }
-
-/*
- ###### #    # #    #  ####              #    #  ####  #    # ######    #####    ##    ####  ######
- #      #    # ##   # #    #             #    # #    # ##  ## #         #    #  #  #  #    # #
- #####  #    # # #  # #         #####    ###### #    # # ## # #####     #    # #    # #      #####
- #      #    # #  # # #                  #    # #    # #    # #         #####  ###### #  ### #
- #      #    # #   ## #    #             #    # #    # #    # #         #      #    # #    # #
- #       ####  #    #  ####              #    #  ####  #    # ######    #      #    #  ####  ######
-*/
 
 function loadHomePage() {
   loadFileFromJsonFolder(null, "home").then((data) => {
@@ -331,15 +250,6 @@ function useHomePage(url) {
   saveHomePage();
 }
 
-/*
- ###### #    # #    #  ####               ####  #      ######   ##   #####     #####    ##   #####   ##
- #      #    # ##   # #    #             #    # #      #       #  #  #    #    #    #  #  #    #    #  #
- #####  #    # # #  # #         #####    #      #      #####  #    # #    #    #    # #    #   #   #    #
- #      #    # #  # # #                  #      #      #      ###### #####     #    # ######   #   ######
- #      #    # #   ## #    #             #    # #      #      #    # #   #     #    # #    #   #   #    #
- #       ####  #    #  ####               ####  ###### ###### #    # #    #    #####  #    #   #   #    #
-*/
-
 function clearBrowsingData() {
   var clearCache = document.getElementById("clear-cache-checkbox").checked;
   var clearStorage = document.getElementById("clear-storage-checkbox").checked;
@@ -355,15 +265,6 @@ function clearBrowsingData() {
   }
 }
 
-/*
- ###### #    # #    #  ####              #    # # #    #     ####   ####  #    # ##### #####   ####  #       ####
- #      #    # ##   # #    #             #    # # ##   #    #    # #    # ##   #   #   #    # #    # #      #
- #####  #    # # #  # #         #####    #    # # # #  #    #      #    # # #  #   #   #    # #    # #       ####
- #      #    # #  # # #                  # ## # # #  # #    #      #    # #  # #   #   #####  #    # #           #
- #      #    # #   ## #    #             ##  ## # #   ##    #    # #    # #   ##   #   #   #  #    # #      #    #
- #       ####  #    #  ####              #    # # #    #     ####   ####  #    #   #   #    #  ####  ######  ####
-*/
-
 function requestWinControls(bool) {
   saveFileToJsonFolder(null, "wincontrols", JSON.stringify({ systemTitlebar: bool })).then(() => {
     if(bool) {
@@ -373,15 +274,6 @@ function requestWinControls(bool) {
     }
   });
 }
-
-/*
- ###### #    # #    #  ####               ####    ##   ##### ######  ####   ####  #####  # ######  ####
- #      #    # ##   # #    #             #    #  #  #    #   #      #    # #    # #    # # #      #
- #####  #    # # #  # #         #####    #      #    #   #   #####  #      #    # #    # # #####   ####
- #      #    # #  # # #                  #      ######   #   #      #  ### #    # #####  # #           #
- #      #    # #   ## #    #             #    # #    #   #   #      #    # #    # #   #  # #      #    #
- #       ####  #    #  ####               ####  #    #   #   ######  ####   ####  #    # # ######  ####
-*/
 
 function showCategory(id) {
   let containers = document.getElementsByClassName("container");
@@ -397,27 +289,9 @@ function showCategory(id) {
   }
 }
 
-/*
- # #####   ####               ####    ##    ####  #    # ######
- # #    # #    #             #    #  #  #  #    # #    # #
- # #    # #         #####    #      #    # #      ###### #####
- # #####  #                  #      ###### #      #    # #
- # #      #    #             #    # #    # #    # #    # #
- # #       ####               ####  #    #  ####  #    # ######
-*/
-
 ipcRenderer.on("action-set-cache-size", (event, arg) => {
   document.getElementById("cache-size-label").innerHTML = "Cache size: " + bytesToSize(arg.cacheSize);
 });
-
-/*
- # #####   ####              #    # # #    # #####   ####  #    #
- # #    # #    #             #    # # ##   # #    # #    # #    #
- # #    # #         #####    #    # # # #  # #    # #    # #    #
- # #####  #                  # ## # # #  # # #    # #    # # ## #
- # #      #    #             ##  ## # #   ## #    # #    # ##  ##
- # #       ####              #    # # #    # #####   ####  #    #
-*/
 
 ipcRenderer.on("window-blur", (event) => {
   document.getElementById("titlebar").classList.add("blur");
@@ -426,15 +300,6 @@ ipcRenderer.on("window-blur", (event) => {
 ipcRenderer.on("window-focus", (event) => {
   document.getElementById("titlebar").classList.remove("blur");
 });
-
-/*
- # #####   ####               ####  ###### ##### ##### # #    #  ####   ####
- # #    # #    #             #      #        #     #   # ##   # #    # #
- # #    # #         #####     ####  #####    #     #   # # #  # #       ####
- # #####  #                       # #        #     #   # #  # # #  ###      #
- # #      #    #             #    # #        #     #   # #   ## #    # #    #
- # #       ####               ####  ######   #     #   # #    #  ####   ####
-*/
 
 ipcRenderer.on("settings-setDownloadsFolder", (event, path) => {
   document.getElementById("downloads-folder").innerHTML = path;
@@ -448,15 +313,6 @@ ipcRenderer.on("settings-showCategory", (event, categoryId) => {
     showCategory(categoryId);
   }
 });
-
-/*
- # #    # # #####
- # ##   # #   #
- # # #  # #   #
- # #  # # #   #
- # #   ## #   #
- # #    # #   #
-*/
 
 function init() {
   loadWinControlsModule().then((winControls) => {
@@ -489,12 +345,3 @@ document.onreadystatechange = () => {
       init();
   }
 };
-
-/*
- ##### #    # ######    ###### #    # #####
-   #   #    # #         #      ##   # #    #
-   #   ###### #####     #####  # #  # #    #
-   #   #    # #         #      #  # # #    #
-   #   #    # #         #      #   ## #    #
-   #   #    # ######    ###### #    # #####
-*/

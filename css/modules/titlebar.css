@@ -3,15 +3,6 @@
     src: url(../../fonts/SegMDL2.ttf);
 }
 
-/*
- ##### # ##### #      ###### #####    ##   #####
-   #   #   #   #      #      #    #  #  #  #    #
-   #   #   #   #      #####  #####  #    # #    #
-   #   #   #   #      #      #    # ###### #####
-   #   #   #   #      #      #    # #    # #   #
-   #   #   #   ###### ###### #####  #    # #    #
-*/
-
 #titlebar-icon {
     float: left;
     padding: 8px;
@@ -31,6 +22,7 @@
     top: 4px;
     bottom: calc(100% - 32px);
     z-index: -100;
+    width: calc(100% - 32px);
 }
   
 #titlebar {
@@ -58,26 +50,48 @@ body.system-titlebar #titlebar {
 }
 
 #titlebar-label {
-    position: absolute;
-    top: 6px;
-    left: 34px;
-    font-size: var(--px-font);
-    color: var(--color-top);
+  position: absolute;
+  top: 6px;
+  left: 34px;
+  font-size: var(--px-font);
+  color: var(--color-top);
 }
 
 #titlebar.blur #titlebar-label {
-    opacity: 0.5;
+  opacity: 0.5;
 }
-  
-/*
- #    # # #    #     ####   ####  #    # ##### #####   ####  #       ####
- #    # # ##   #    #    # #    # ##   #   #   #    # #    # #      #
- #    # # # #  #    #      #    # # #  #   #   #    # #    # #       ####
- # ## # # #  # #    #      #    # #  # #   #   #####  #    # #           #
- ##  ## # #   ##    #    # #    # #   ##   #   #   #  #    # #      #    #
- #    # # #    #     ####   ####  #    #   #   #    #  ####  ######  ####
-*/
-  
+
+#titlebar-close {
+  background: none;
+  background-color: var(--color-element);
+  border: 1px solid transparent;
+  border-color: var(--color-border);
+  border-radius: var(--px-radius);
+  color: var(--color-top);
+  cursor: pointer;
+  display: inline-block;
+  font-size: var(--px-font);
+  height: 24px;
+  line-height: 24px;
+  outline: none;
+  position: absolute;
+  right: 4px;
+  text-align: center;
+  top: 4px;
+  vertical-align: middle;
+  width: 24px;
+}
+
+#titlebar-close:hover{
+  background-color: var(--color-second);
+}
+
+#titlebar-close img{
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
 #window-controls {
     -webkit-app-region: no-drag;
     float: right;
