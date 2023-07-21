@@ -1,15 +1,15 @@
 .overlay-button {
     -webkit-app-region: no-drag;
-    outline: none;
-    float: left;
-    color: var(--color-top);
     background-color: var(--color-titlebar);
-    font-size: var(--px-font);
-    padding: 10px;
-    height: 34px;
     border: 1px solid var(--color-border);
+    color: var(--color-top);
+    float: left;
+    font-size: var(--px-font);
+    height: 34px;
     margin: -1px;
     margin-right: 0;
+    outline: none;
+    padding: 10px;
 }
 
 .overlay-button img {
@@ -17,18 +17,19 @@
 }
 
 .overlay-button.active {
-    border-bottom: none;
     background-color: var(--color-back);
+    border-bottom: none;
 }
 
 .overlay-button:hover {
     background-color: var(--color-second);
     border-bottom: 1px solid var(--color-border);
+    cursor: pointer;
 }
 
 .overlay-button:focus {
-    box-shadow: var(--shadow-focus);
     border-bottom: 1px solid var(--color-border);
+    box-shadow: var(--shadow-focus);
 }
 
 .overlay-button:active {
