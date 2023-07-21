@@ -113,10 +113,10 @@ class HistoryItem extends EventEmitter {
                       resolve(jsonResponse.title);
                     }
 
-                    var jsonResponseParse = JSON.parse(xhr.responseText);
-                    if (jsonResponseParse.title) {
-                      resolve(jsonResponseParse.title);
-                    }
+                    //var jsonResponseParse = JSON.parse(xhr.responseText);
+                    //if (jsonResponseParse.title) {
+                    //  resolve(jsonResponseParse.title);
+                    //}
                 }
             }
             // TODO : Review this URL to get the correct JSON
