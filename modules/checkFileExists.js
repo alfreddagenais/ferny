@@ -1,17 +1,17 @@
-const fs = require("fs");
+const fs = require('fs')
 
-function checkFileExists(path) {
-    return new Promise((resolve, reject) => {
-        fs.exists(path, (exists) => {
-            if(exists) {
-                resolve(true);
-            } else {
-                fs.writeFile(path, "", (err) => {
-                    resolve(false);
-                });
-            }
-        });
-    });
+function checkFileExists (path) {
+  return new Promise((resolve, reject) => {
+    fs.access(path, (error) => {
+      if (!error) {
+        resolve(true)
+      } else {
+        fs.writeFile(path, '', () => {
+          resolve(false)
+        })
+      }
+    })
+  })
 }
 
-module.exports = checkFileExists;
+module.exports = checkFileExists

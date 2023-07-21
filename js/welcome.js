@@ -1,82 +1,82 @@
-const { ipcRenderer } = require('electron');
-const ppath = require('persist-path')('Ferny');
-const fs = require("fs");
+const { ipcRenderer } = require('electron')
+const ppath = require('persist-path')('Ferny')
+const fs = require('fs')
 
-const saveFileToJsonFolder = require("../modules/saveFileToJsonFolder.js");
-const loadTheme = require("../modules/loadTheme.js");
-const applyTheme = require("../modules/applyTheme.js");
-const applyWinControls = require("../modules/applyWinControls.js");
+const saveFileToJsonFolder = require('../modules/saveFileToJsonFolder.js')
+const loadTheme = require('../modules/loadTheme.js')
+const applyTheme = require('../modules/applyTheme.js')
+const applyWinControls = require('../modules/applyWinControls.js')
 
-function updateTheme() {
-  loadTheme().then(function(theme) {
-    applyTheme(theme);
-  });
+function updateTheme () {
+  loadTheme().then(function (theme) {
+    applyTheme(theme)
+  })
 }
 
-function requestTheme(theme) {
-  saveFileToJsonFolder(null, 'theme', theme).then(function(bool) {
-    loadTheme(theme).then(function(themeObj) {
-      ipcRenderer.send('request-change-theme', themeObj);
-      applyTheme(themeObj);
-    });
-  });
+function requestTheme (theme) { // eslint-disable-line no-unused-vars
+  saveFileToJsonFolder(null, 'theme', theme).then(function (bool) {
+    loadTheme(theme).then(function (themeObj) {
+      ipcRenderer.send('request-change-theme', themeObj)
+      applyTheme(themeObj)
+    })
+  })
 }
 
-function chooseSlide(i) {
-  var dots = document.getElementsByClassName('dot');
-  var tabs = document.getElementsByClassName('tab');
+function chooseSlide (i) {
+  const dots = document.getElementsByClassName('dot')
+  const tabs = document.getElementsByClassName('tab')
 
-  for(var j = 0; j < dots.length; j++) {
-    dots[j].classList.remove('active');
-    tabs[j].classList.remove('active');
+  for (let j = 0; j < dots.length; j++) {
+    dots[j].classList.remove('active')
+    tabs[j].classList.remove('active')
   }
 
-  dots[i].classList.add('active');
-  tabs[i].classList.add('active');
+  dots[i].classList.add('active')
+  tabs[i].classList.add('active')
 
-  if(i == 0) {
-    document.getElementById('prev-btn').classList.add('disable');
+  if (i === 0) {
+    document.getElementById('prev-btn').classList.add('disable')
   } else {
-    document.getElementById('prev-btn').classList.remove('disable');
+    document.getElementById('prev-btn').classList.remove('disable')
   }
-  if(i == dots.length - 1) {
-    document.getElementById('next-btn').classList.add('disable');
-    document.getElementById('skip-btn').classList.add('disable');
+  if (i === dots.length - 1) {
+    document.getElementById('next-btn').classList.add('disable')
+    document.getElementById('skip-btn').classList.add('disable')
   } else {
-    document.getElementById('next-btn').classList.remove('disable');
-    document.getElementById('skip-btn').classList.remove('disable');
+    document.getElementById('next-btn').classList.remove('disable')
+    document.getElementById('skip-btn').classList.remove('disable')
   }
 }
 
-function nextSlide() {
-  var dots = document.getElementsByClassName('dot');
-  for(var i = 0; i < dots.length - 1; i++) {
-    if(dots[i].classList.contains('active')) {
-      chooseSlide(i + 1);
-      break;
+function nextSlide () {
+  const dots = document.getElementsByClassName('dot')
+  for (let i = 0; i < dots.length - 1; i++) {
+    if (dots[i].classList.contains('active')) {
+      chooseSlide(i + 1)
+      break
     }
   }
 }
 
-function prevSlide() {
-  var dots = document.getElementsByClassName('dot');
-  for(var i = 1; i < dots.length; i++) {
-    if(dots[i].classList.contains('active')) {
-      chooseSlide(i - 1);
-      break;
+function prevSlide () {
+  const dots = document.getElementsByClassName('dot')
+  for (let i = 1; i < dots.length; i++) {
+    if (dots[i].classList.contains('active')) {
+      chooseSlide(i - 1)
+      break
     }
   }
 }
 
-function loadSearchEngine() {
+function loadSearchEngine () {
   try {
-    var searchEngine = fs.readFileSync(ppath + "/json/searchengine.json");
+    const searchEngine = fs.readFileSync(ppath + '/json/searchengine.json')
 
-    var radios = document.getElementsByName("search-engine");
-    for(var i = 0; i < radios.length; i++) {
-      if(radios[i].value == searchEngine) {
-        radios[i].checked = true;
-        break;
+    const radios = document.getElementsByName('search-engine')
+    for (let i = 0; i < radios.length; i++) {
+      if (radios[i].value === searchEngine) {
+        radios[i].checked = true
+        break
       }
     }
   } catch (e) {
@@ -84,82 +84,82 @@ function loadSearchEngine() {
   }
 }
 
-function tabsWheel(event) {
+function tabsWheel (event) { // eslint-disable-line no-unused-vars
   if (event.deltaY < 0) {
-    prevSlide();
+    prevSlide()
   }
   if (event.deltaY > 0) {
-    nextSlide();
+    nextSlide()
   }
 }
 
-function closeWindow() {
-  ipcRenderer.send('request-close-welcome');
+function closeWindow () { // eslint-disable-line no-unused-vars
+  ipcRenderer.send('request-close-welcome')
 }
 
-function moreSettings(shortcutId) {
-  ipcRenderer.send('request-open-settings', shortcutId);
+function moreSettings (shortcutId) { // eslint-disable-line no-unused-vars
+  ipcRenderer.send('request-open-settings', shortcutId)
 }
 
-function changeWelcome(bool) {
-  if(bool) {
-    saveFileToJsonFolder('welcome', 1);
+function changeWelcome (bool) { // eslint-disable-line no-unused-vars
+  if (bool) {
+    saveFileToJsonFolder('welcome', 1)
   } else {
-    saveFileToJsonFolder('welcome', 0);
+    saveFileToJsonFolder('welcome', 0)
   }
 }
 
-function openAppPage() {
-  ipcRenderer.send('request-open-url-in-new-tab', "https://moduleart.github.io/ferny");
+function openAppPage () { // eslint-disable-line no-unused-vars
+  ipcRenderer.send('request-open-url-in-new-tab', 'https://moduleart.github.io/ferny')
 }
 
-function openDeveloperPage() {
-  ipcRenderer.send('request-open-url-in-new-tab', "https://moduleart.github.io/");
+function openDeveloperPage () { // eslint-disable-line no-unused-vars
+  ipcRenderer.send('request-open-url-in-new-tab', 'https://moduleart.github.io/')
 }
 
-function loadStartPage() {
+function loadStartPage () {
   try {
-    var startPage = fs.readFileSync(ppath + "/json/startpage.json");
-    document.getElementById('start-page-input').value = startPage;
+    const startPage = fs.readFileSync(ppath + '/json/startpage.json')
+    document.getElementById('start-page-input').value = startPage
   } catch (e) {
 
   }
 }
 
-function setStartPageLikeHomePage() {
+function setStartPageLikeHomePage () { // eslint-disable-line no-unused-vars
   try {
-    var jsonstr = fs.readFileSync(ppath + "/json/home.json");
-    Data = JSON.parse(jsonstr);
-    document.getElementById('start-page-input').value = Data.url;
+    const jsonstr = fs.readFileSync(ppath + '/json/home.json')
+    const data = JSON.parse(jsonstr)
+    document.getElementById('start-page-input').value = data.url
   } catch (e) {
 
   }
 }
 
-function saveStartPage() {
-  var startPage = document.getElementById('start-page-input').value;
+function saveStartPage () { // eslint-disable-line no-unused-vars
+  const startPage = document.getElementById('start-page-input').value
 
-  saveFileToJsonFolder('startpage', startPage).then(function() {
-    notif("Start page saved: " + startPage, "success");
+  saveFileToJsonFolder('startpage', startPage).then(function () {
+    notif('Start page saved: ' + startPage, 'success')
 
-    ipcRenderer.send('request-set-start-page', startPage);
-  });
+    ipcRenderer.send('request-set-start-page', startPage)
+  })
 }
 
-function loadBookmarksBar() {
+function loadBookmarksBar () {
   try {
-    var jsonstr = fs.readFileSync(ppath + "/json/bookmarksbar.json");
-    let Data = JSON.parse(jsonstr);
+    const jsonstr = fs.readFileSync(ppath + '/json/bookmarksbar.json')
+    const Data = JSON.parse(jsonstr)
 
-    if(Data.on) {
-      document.getElementById('bookmarks-bar-checkbox').checked = true;
+    if (Data.on) {
+      document.getElementById('bookmarks-bar-checkbox').checked = true
     }
 
-    var radios = document.getElementsByName("bbar-layout");
-    for(var i = 0; i < radios.length; i++) {
-      if(radios[i].value == Data.layout) {
-        radios[i].checked = true;
-        break;
+    const radios = document.getElementsByName('bbar-layout')
+    for (let i = 0; i < radios.length; i++) {
+      if (radios[i].value === Data.layout) {
+        radios[i].checked = true
+        break
       }
     }
   } catch (e) {
@@ -167,130 +167,130 @@ function loadBookmarksBar() {
   }
 }
 
-function loadHomePage() {
+function loadHomePage () {
   try {
-    var jsonstr = fs.readFileSync(ppath + "/json/home.json");
-    Data = JSON.parse(jsonstr);
-    document.getElementById('home-page-input').value = Data.url;
-    if(Data.on == 1) {
-      document.getElementById('home-page-checkbox').checked = true;
+    const jsonstr = fs.readFileSync(ppath + '/json/home.json')
+    const Data = JSON.parse(jsonstr)
+    document.getElementById('home-page-input').value = Data.url
+    if (Data.on === 1) {
+      document.getElementById('home-page-checkbox').checked = true
     }
   } catch (e) {
 
   }
 }
 
-function notif(text, type) {
-  let Data = {
-    text: text,
-    type: type
-  };
+function notif (text, type) {
+  const Data = {
+    text,
+    type
+  }
   ipcRenderer.send('request-add-status-notif', Data)
 }
 
-function moreInfo(btn) {
-  btn.classList.toggle('active');
-  btn.nextElementSibling.classList.toggle('active');
+function moreInfo (btn) { // eslint-disable-line no-unused-vars
+  btn.classList.toggle('active')
+  btn.nextElementSibling.classList.toggle('active')
 }
 
-function requestSearchEngine(engine) {
-  ipcRenderer.send('request-set-search-engine', engine);
+function requestSearchEngine (engine) { // eslint-disable-line no-unused-vars
+  ipcRenderer.send('request-set-search-engine', engine)
 }
 
-function keyDown(e) {
-  e = e || window.event;
+function keyDown (e) {
+  e = e || window.event
 
-  if (e.keyCode == '37') {
-    prevSlide();
-  } else if (e.keyCode == '39') {
-    nextSlide();
+  if (e.keyCode === '37') {
+    prevSlide()
+  } else if (e.keyCode === '39') {
+    nextSlide()
   }
 }
 
-function loadWelcome() {
+function loadWelcome () {
   try {
-    var welcomeOn = fs.readFileSync(ppath + "/json/welcome.json");
-    if(welcomeOn == 1) {
-      document.getElementById('welcome-checkbox').checked = true;
+    const welcomeOn = fs.readFileSync(ppath + '/json/welcome.json')
+    if (welcomeOn === 1) {
+      document.getElementById('welcome-checkbox').checked = true
     } else {
-      document.getElementById('welcome-checkbox').checked = false;
+      document.getElementById('welcome-checkbox').checked = false
     }
   } catch (e) {
 
   }
 }
 
-function saveHomePage() {
-  var url = document.getElementById('home-page-input').value;
-  var on = document.getElementById('home-page-checkbox').checked;
+function saveHomePage () { // eslint-disable-line no-unused-vars
+  const url = document.getElementById('home-page-input').value
+  let on = document.getElementById('home-page-checkbox').checked
 
-  if(url.length <= 0) {
-    notif("First enter the home page URL", "warning");
+  if (url.length <= 0) {
+    notif('First enter the home page URL', 'warning')
   } else {
-    if(on) {
-      on = 1;
+    if (on) {
+      on = 1
     } else {
-      on = 0;
+      on = 0
     }
-  
-    if(!fs.existsSync(ppath + "/json")) {
-      fs.mkdirSync(ppath + "/json");
-    } 
-    saveFileToJsonFolder('home', JSON.stringify({ url: url, on: on })).then(function() {
-      notif("Home page saved: " + url, "success");
 
-      ipcRenderer.send('request-update-home-page');
-    });
+    if (!fs.existsSync(ppath + '/json')) {
+      fs.mkdirSync(ppath + '/json')
+    }
+    saveFileToJsonFolder('home', JSON.stringify({ url, on })).then(function () {
+      notif('Home page saved: ' + url, 'success')
+
+      ipcRenderer.send('request-update-home-page')
+    })
   }
 }
 
-function requestBookmarksBar(on, layout) {
-  if(on != null) {
-    if(on) {
-      on = 1;
+function requestBookmarksBar (on, layout) { // eslint-disable-line no-unused-vars
+  if (on != null) {
+    if (on) {
+      on = 1
     } else {
-      on = 0;
+      on = 0
     }
   }
 
-  let Data = {
-    on: on,
-    layout: layout
-  };
+  const Data = {
+    on,
+    layout
+  }
 
-  ipcRenderer.send('request-set-bookmarks-bar', Data);
+  ipcRenderer.send('request-set-bookmarks-bar', Data)
 }
 
 ipcRenderer.on('action-set-about', (event, arg) => {
-  document.getElementById('version').innerHTML = "v" + arg.version + " / " + arg.arch + " / " + arg.platform;
-});
+  document.getElementById('version').innerHTML = 'v' + arg.version + ' / ' + arg.arch + ' / ' + arg.platform
+})
 
 ipcRenderer.on('action-blur-window', (event, arg) => {
-  document.getElementById('titlebar').classList.add('blur');
-});
+  document.getElementById('titlebar').classList.add('blur')
+})
 
 ipcRenderer.on('action-focus-window', (event, arg) => {
-  document.getElementById('titlebar').classList.remove('blur');
-});
+  document.getElementById('titlebar').classList.remove('blur')
+})
 
-function init() {
-  applyWinControls('only-close');
+function init () {
+  applyWinControls('only-close')
 
-  updateTheme();
-  
-  loadSearchEngine();
-  loadHomePage();
-  loadStartPage();
-  loadBookmarksBar();
-  loadWelcome();
+  updateTheme()
 
-  ipcRenderer.send('request-set-about');
+  loadSearchEngine()
+  loadHomePage()
+  loadStartPage()
+  loadBookmarksBar()
+  loadWelcome()
 
-  document.onkeydown = keyDown;
+  ipcRenderer.send('request-set-about')
+
+  document.onkeydown = keyDown
 }
 
 document.onreadystatechange = () => {
-  if (document.readyState == "complete") {
-      init();
+  if (document.readyState === 'complete') {
+    init()
   }
 }

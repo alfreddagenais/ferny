@@ -1,15 +1,13 @@
-"use strict";
+const { ipcRenderer } = require('electron')
 
-const { ipcRenderer } = require("electron");
+document.addEventListener('wheel', webviewMouseWheel)
 
-document.addEventListener("wheel", webviewMouseWheel);
-
-function webviewMouseWheel(e) {
-    if (e.ctrlKey) {
-        if (e.deltaY > 0) {
-            ipcRenderer.send("tabManager-zoomOut");
-        } else if (event.deltaY < 0) {
-            ipcRenderer.send("tabManager-zoomIn");
-        }
+function webviewMouseWheel (e) {
+  if (e.ctrlKey) {
+    if (e.deltaY > 0) {
+      ipcRenderer.send('tabManager-zoomOut')
+    } else if (e.deltaY < 0) {
+      ipcRenderer.send('tabManager-zoomIn')
     }
+  }
 }
