@@ -363,7 +363,13 @@ ipcMain.on('request-set-cache-size', (event, arg) => {
 
 ipcMain.on('request-info-contextmenu', (event, arg) => {
   let infoMenu = Menu.buildFromTemplate([
-    { label: 'Certificate info', icon: app.getAppPath() + '/imgs/icons16/certificate.png', click: () => { mainWindow.webContents.send('action-page-certificate'); } }
+    {
+      label: 'Certificate info',
+      // icon: app.getAppPath() + '/imgs/icons16/certificate.png',
+      click: () => {
+        mainWindow.webContents.send('action-page-certificate');
+      }
+    }
   ]);
   infoMenu.popup(mainWindow);
 });

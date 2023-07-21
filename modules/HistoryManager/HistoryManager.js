@@ -82,7 +82,7 @@ class HistoryManager extends EventEmitter {
         loadFileFromJsonFolder("history", "history-counter").then((historyCounter) => {
             this.historyCounter = historyCounter;
         });
-
+        
         checkFileExists(ppath + "/json/history/history.json").then(() => {
             this.historyContainer.innerHTML = "";
 

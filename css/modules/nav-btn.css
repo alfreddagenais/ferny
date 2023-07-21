@@ -30,6 +30,7 @@
 .nav-btn:hover {
     background-color: var(--color-second);
     border-color: var(--color-border);
+    cursor: pointer;
 }
 
 .nav-btn:focus {
@@ -37,7 +38,8 @@
     border-color: var(--color-border);
 }
 
-.nav-btn:active, .nav-btn.active {
+.nav-btn:active,
+.nav-btn.active {
     background-color: var(--color-titlebar);
     border-color: var(--color-border);
 }
@@ -46,4 +48,5 @@
     background-color: transparent;
     border-color: transparent;
     opacity: var(--opacity-over);
+    cursor: default;
 }

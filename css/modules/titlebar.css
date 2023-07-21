@@ -118,6 +118,7 @@ body.system-titlebar #titlebar {
   #window-controls .nav-btn:hover {
     background-color: var(--color-second);
     border-color: var(--color-border);
+    cursor: pointer;
   }
   
   #window-controls .nav-btn:focus {
@@ -143,6 +144,7 @@ body.system-titlebar #titlebar {
   #window-controls .button:hover {
     background-color: var(--color-second);
     border-color: var(--color-border);
+    cursor: pointer;
     opacity: 1 !important;
   }
   
@@ -163,7 +165,8 @@ body.system-titlebar #titlebar {
     color: white;
   }
   
-  #titlebar.blur #window-controls .button, #titlebar.blur .theme-icon {
+  #titlebar.blur #window-controls .button,
+  #titlebar.blur .theme-icon {
     opacity: var(--opacity-over);
   }
   
