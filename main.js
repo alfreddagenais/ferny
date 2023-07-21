@@ -1,14 +1,5 @@
 "use strict";
 
-/*
- #####  ######  ####  #    # # #####  ######
- #    # #      #    # #    # # #    # #
- #    # #####  #    # #    # # #    # #####
- #####  #      #  # # #    # # #####  #
- #   #  #      #   #  #    # # #   #  #
- #    # ######  ### #  ####  # #    # ######
-*/
-
 const { ipcMain, app, Menu, BrowserWindow, dialog, clipboard, session, shell } = require("electron");
 const { autoUpdater } = require("electron-updater");
 const os = require("os");
@@ -24,17 +15,10 @@ const loadHomePage = require(app.getAppPath() + "/modules/loadHomePage.js");
 const loadBounds = require(app.getAppPath() + "/modules/loadBounds.js");
 const loadWinControlsModule = require(app.getAppPath() + "/modules/loadWinControls.js");
 
+const { setApplicationMenu } = require(app.getAppPath() + "/modules/applicationMenu");
+
 const TabManager = require(app.getAppPath() + "/modules/TabManager/TabManager.js");
 const Overlay = require(app.getAppPath() + "/modules/Overlay/Overlay.js");
-
-/*
- #    #   ##   #####  #   ##   #####  #      ######  ####
- #    #  #  #  #    # #  #  #  #    # #      #      #
- #    # #    # #    # # #    # #####  #      #####   ####
- #    # ###### #####  # ###### #    # #      #           #
-  #  #  #    # #   #  # #    # #    # #      #      #    #
-   ##   #    # #    # # #    # #####  ###### ######  ####
-*/
 
 let sideMenu = null;
 
@@ -71,9 +55,10 @@ if(!gotTheLock) {
         }
       }
     }
-    if(mainWindow != null) {
+
+    if (mainWindow != null) {
       mainWindow.focus();
-      mainWindow.webContents.send("console-log", argv);
+      // mainWindow.webContents.send("console-log", argv);
     }
   });
 }
@@ -226,15 +211,6 @@ app.on("ready", () => {
   // loadWelcome();
 });
 
-/*
- # #####   ####              #    #   ##   # #    #
- # #    # #    #             ##  ##  #  #  # ##   #
- # #    # #         #####    # ## # #    # # # #  #
- # #####  #                  #    # ###### # #  # #
- # #      #    #             #    # #    # # #   ##
- # #       ####              #    # #    # # #    #
-*/
-
 ipcMain.on("main-openDownloadsFolder", (event) => {
   openDownloadsFolder();
 });
@@ -314,16 +290,6 @@ ipcMain.on("main-updateTheme", (event) => {
 ipcMain.on("main-updateBookmarkedButton", (event, exists, id) => {
   mainWindow.webContents.send("tabRenderer-updateBookmarkedButton", exists, id);
 });
-
-/*
-.####.########...######.....##.....##....###....####.##....##
-..##..##.....##.##....##....###...###...##.##....##..###...##
-..##..##.....##.##..........####.####..##...##...##..####..##
-..##..########..##..........##.###.##.##.....##..##..##.##.##
-..##..##........##..........##.....##.#########..##..##..####
-..##..##........##....##....##.....##.##.....##..##..##...###
-.####.##.........######.....##.....##.##.....##.####.##....##
-*/
 
 ipcMain.on('request-clear-browsing-data', (event, arg) => {
   const ses = mainWindow.webContents.session;
@@ -420,15 +386,6 @@ ipcMain.on('request-toggle-fullscreen', (event, arg) => {
   toggleFullscreen();
 });
 
-/*
- # #####   ####              #####   ####  #    # #    # #       ####    ##   #####   ####
- # #    # #    #             #    # #    # #    # ##   # #      #    #  #  #  #    # #
- # #    # #         #####    #    # #    # #    # # #  # #      #    # #    # #    #  ####
- # #####  #                  #    # #    # # ## # #  # # #      #    # ###### #    #      #
- # #      #    #             #    # #    # ##  ## #   ## #      #    # #    # #    # #    #
- # #       ####              #####   ####  #    # #    # ######  ####  #    # #####   ####
-*/
-
 ipcMain.on("downloadManager-resumeDownload", (event, id) => {
   for(let i = 0; i < downloads.length; i++) {
     if(downloads[i].id == id) {
@@ -456,40 +413,13 @@ ipcMain.on("downloadManager-cancelDownload", (event, id) => {
   }
 });
 
-/*
- # #####   ####               ####  ###### ##### ##### # #    #  ####   ####
- # #    # #    #             #      #        #     #   # ##   # #    # #
- # #    # #         #####     ####  #####    #     #   # # #  # #       ####
- # #####  #                       # #        #     #   # #  # # #  ###      #
- # #      #    #             #    # #        #     #   # #   ## #    # #    #
- # #       ####               ####  ######   #     #   # #    #  ####   ####
-*/
-
 ipcMain.on("settings-closeWindow", (event) => {
   settingsWindow.close();
 });
 
-/*
- # #####   ####                ##   #####   ####  #    # #####
- # #    # #    #              #  #  #    # #    # #    #   #
- # #    # #         #####    #    # #####  #    # #    #   #
- # #####  #                  ###### #    # #    # #    #   #
- # #      #    #             #    # #    # #    # #    #   #
- # #       ####              #    # #####   ####   ####    #
-*/
-
 ipcMain.on("about-closeWindow", (event) => {
   aboutWindow.close();
 });
-
-/*
- # #####   ####               ####  #    # ###### #####  #        ##   #   #
- # #    # #    #             #    # #    # #      #    # #       #  #   # #
- # #    # #         #####    #    # #    # #####  #    # #      #    #   #
- # #####  #                  #    # #    # #      #####  #      ######   #
- # #      #    #             #    #  #  #  #      #   #  #      #    #   #
- # #       ####               ####    ##   ###### #    # ###### #    #   #
-*/
 
 ipcMain.on("overlay-show", (event) => {
   overlay.show();
@@ -542,15 +472,6 @@ ipcMain.on("overlay-showMenu", (event, id) => {
     } }
   ]);
 });
-
-/*
- # #####   ####              #####   ##   #####     #    #   ##   #    #   ##    ####  ###### #####
- # #    # #    #               #    #  #  #    #    ##  ##  #  #  ##   #  #  #  #    # #      #    #
- # #    # #         #####      #   #    # #####     # ## # #    # # #  # #    # #      #####  #    #
- # #####  #                    #   ###### #    #    #    # ###### #  # # ###### #  ### #      #####
- # #      #    #               #   #    # #    #    #    # #    # #   ## #    # #    # #      #   #
- # #       ####                #   #    # #####     #    # #    # #    # #    #  ####  ###### #    #
-*/
 
 ipcMain.on("tabManager-newTab", (event) => {
   tabManager.newTab();
@@ -679,15 +600,6 @@ ipcMain.on("tabManager-requestTabPreview", (event, id) => {
   tabManager.getTabById(id).requestTabPreview();
 });
 
-/*
- ###### #    # #    #  ####               ####  #    # ###### #####  #        ##   #   #
- #      #    # ##   # #    #             #    # #    # #      #    # #       #  #   # #
- #####  #    # # #  # #         #####    #    # #    # #####  #    # #      #    #   #
- #      #    # #  # # #                  #    # #    # #      #####  #      ######   #
- #      #    # #   ## #    #             #    #  #  #  #      #   #  #      #    #   #
- #       ####  #    #  ####               ####    ##   ###### #    # ###### #    #   #
-*/
-
 function initOverlay() {
   overlay = new Overlay(mainWindow, app.getAppPath());
 
@@ -695,15 +607,6 @@ function initOverlay() {
     tabManager.unactivateAllTabs();
   });
 }
-
-/*
- ###### #    # #    #  ####              #####   ##   #####     #    #   ##   #    #   ##    ####  ###### #####
- #      #    # ##   # #    #               #    #  #  #    #    ##  ##  #  #  ##   #  #  #  #    # #      #    #
- #####  #    # # #  # #         #####      #   #    # #####     # ## # #    # # #  # #    # #      #####  #    #
- #      #    # #  # # #                    #   ###### #    #    #    # ###### #  # # ###### #  ### #      #####
- #      #    # #   ## #    #               #   #    # #    #    #    # #    # #   ## #    # #    # #      #   #
- #       ####  #    #  ####                #   #    # #####     #    # #    # #    # #    #  ####  ###### #    #
-*/
 
 function initTabManager(theme) {
   tabManager = new TabManager(mainWindow, app.getAppPath(), theme);
@@ -790,15 +693,6 @@ function initTabManager(theme) {
   });
 }
 
-/*
- ###### #    # #    #  ####              #####   ####  #    # #    # #       ####    ##   #####   ####
- #      #    # ##   # #    #             #    # #    # #    # ##   # #      #    #  #  #  #    # #
- #####  #    # # #  # #         #####    #    # #    # #    # # #  # #      #    # #    # #    #  ####
- #      #    # #  # # #                  #    # #    # # ## # #  # # #      #    # ###### #    #      #
- #      #    # #   ## #    #             #    # #    # ##  ## #   ## #      #    # #    # #    # #    #
- #       ####  #    #  ####              #####   ####  #    # #    # ######  ####  #    # #####   ####
-*/
-
 function loadDownloadsFolder() {
   try {
     fs.readFile(ppath + "/json/downloads/downloads-folder.json", (err, data) => {
@@ -848,15 +742,6 @@ function openDownloadsFolder() {
     shell.openExternal(app.getPath("downloads"));
   }
 }
-
-/*
-  ###### #    # #    #  ####              #    # ###### #    # #    # 
-  #      #    # ##   # #    #             ##  ## #      ##   # #    # 
-  #####  #    # # #  # #         #####    # ## # #####  # #  # #    # 
-  #      #    # #  # # #                  #    # #      #  # # #    # 
-  #      #    # #   ## #    #             #    # #      #   ## #    # 
-  #       ####  #    #  ####              #    # ###### #    #  ####  
-*/
 
 function sideMenuConstructor(hasActiveTab, hasTabs) {
   let constructor = [{
@@ -1239,16 +1124,6 @@ function sideMenuConstructor(hasActiveTab, hasTabs) {
   return constructor;
 }
 
-/*
-.########.##.....##.##....##..######..########.####..#######..##....##..######.
-.##.......##.....##.###...##.##....##....##.....##..##.....##.###...##.##....##
-.##.......##.....##.####..##.##..........##.....##..##.....##.####..##.##......
-.######...##.....##.##.##.##.##..........##.....##..##.....##.##.##.##..######.
-.##.......##.....##.##..####.##..........##.....##..##.....##.##..####.......##
-.##.......##.....##.##...###.##....##....##.....##..##.....##.##...###.##....##
-.##........#######..##....##..######.....##....####..#######..##....##..######.
-*/
-
 function saveBounds() {
   let Data = {
     x: mainWindow.getBounds().x,
@@ -1261,7 +1136,7 @@ function saveBounds() {
 }
 
 function showAboutWindow() {
-  if(aboutWindow === null || aboutWindow.isDestroyed()) {
+  if (aboutWindow === null || aboutWindow.isDestroyed()) {
     loadTheme().then(({theme, dark}) => {
       let backgroundColor;
       if(dark) {
@@ -1296,11 +1171,23 @@ function showAboutWindow() {
       
         aboutWindow.on("blur", () => {
           aboutWindow.webContents.send("window-blur");
+          aboutWindow.close();
         });
   
         aboutWindow.once("ready-to-show", () => {
           aboutWindow.show();
           // aboutWindow.webContents.openDevTools();
+        });
+
+        aboutWindow.webContents.on('before-input-event', (event, input) => {
+          if (input.key && (
+            input.key.toLowerCase() === 'escape' ||
+            input.key.toLowerCase() === 'delete' ||
+            input.key.toLowerCase() === 'x'
+          )) {
+            // win.destroy()
+            aboutWindow.close();
+          }
         });
       });
     });
@@ -1457,7 +1344,7 @@ function showMainWindow() {
         mainWindow.webContents.once("dom-ready", () => {
           initOverlay();
           initTabManager({ colorBack: backgroundColor, colorBorder: borderColor });
-          initMenu();
+          initMenu(mainWindow);
     
           loadHomePage().then((homePage) => {
             tabManager.setHomePage(homePage);
@@ -1468,7 +1355,7 @@ function showMainWindow() {
             mainWindow.maximize();
           }
 
-          mainWindow.webContents.send("console-log", process.argv);
+          // mainWindow.webContents.send("console-log", process.argv);
           if(process.argv.length > 1 && process.argv[1] != ".") {
             for(let i = 1; i < process.argv.length; i++) {
               if(process.argv[i].substr(0, 2) != "--") {
@@ -1557,9 +1444,12 @@ function showMainWindow() {
   });
 }
 
-function initMenu() {
+function initMenu(mainWindow) {
   sideMenu = Menu.buildFromTemplate(sideMenuConstructor(true, true));
-  Menu.setApplicationMenu(null);
+  //Menu.setApplicationMenu(null);
+  setApplicationMenu(mainWindow, {
+    showAboutWindow
+  })
   mainWindow.setMenu(sideMenu);
   mainWindow.setMenuBarVisibility(false);
 }
@@ -1641,20 +1531,10 @@ function openFileDialog() {
   });
 }
 
-/*
-.########.....###....########....###.......##........#######.....###....########.
-.##.....##...##.##......##......##.##......##.......##.....##...##.##...##.....##
-.##.....##..##...##.....##.....##...##.....##.......##.....##..##...##..##.....##
-.##.....##.##.....##....##....##.....##....##.......##.....##.##.....##.##.....##
-.##.....##.#########....##....#########....##.......##.....##.#########.##.....##
-.##.....##.##.....##....##....##.....##....##.......##.....##.##.....##.##.....##
-.########..##.....##....##....##.....##....########..#######..##.....##.########.
-*/
-
 function loadWelcome() {
   try {
     var welcomeOn = fs.readFileSync(ppath + "/json/welcome.json");
-    if(welcomeOn == 1) {
+    if (welcomeOn == 1) {
       showWelcomeWindow();
     }
   } catch (e) {
@@ -1662,13 +1542,3 @@ function loadWelcome() {
     showWelcomeWindow();
   }
 }
-
-/*
-.########.##.....##.########....########.##....##.########.
-....##....##.....##.##..........##.......###...##.##.....##
-....##....##.....##.##..........##.......####..##.##.....##
-....##....#########.######......######...##.##.##.##.....##
-....##....##.....##.##..........##.......##..####.##.....##
-....##....##.....##.##..........##.......##...###.##.....##
-....##....##.....##.########....########.##....##.########.
-*/
