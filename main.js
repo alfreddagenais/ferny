@@ -52,15 +52,6 @@ let updateCancellationToken = null;
 let tabManager = null;
 let overlay = null;
 
-/*
-  ####  # #    #  ####  #      ######    # #    #  ####  #####   ##   #    #  ####  ######
- #      # ##   # #    # #      #         # ##   # #        #    #  #  ##   # #    # #
-  ####  # # #  # #      #      #####     # # #  #  ####    #   #    # # #  # #      #####
-      # # #  # # #  ### #      #         # #  # #      #   #   ###### #  # # #      #
- #    # # #   ## #    # #      #         # #   ## #    #   #   #    # #   ## #    # #
-  ####  # #    #  ####  ###### ######    # #    #  ####    #   #    # #    #  ####  ######
-*/
-
 const gotTheLock = app.requestSingleInstanceLock();
 
 if(!gotTheLock) {
@@ -86,15 +77,6 @@ if(!gotTheLock) {
     }
   });
 }
-
-/*
-   ##   #####  #####
-  #  #  #    # #    #
- #    # #    # #    #
- ###### #####  #####
- #    # #      #
- #    # #      #
-*/
 
 app.on("window-all-closed", () => {
   if(process.platform !== "darwin") {

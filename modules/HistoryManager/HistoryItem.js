@@ -106,10 +106,26 @@ class HistoryItem extends EventEmitter {
             let xhr = new XMLHttpRequest();
             xhr.onreadystatechange = () => {
                 if (xhr.readyState == XMLHttpRequest.DONE) {
-                    resolve(xhr.responseText);
+                    // resolve(xhr.responseText);
+
+                    const jsonResponse = xhr.response;
+                    if (jsonResponse.title) {
+                      resolve(jsonResponse.title);
+                    }
+
+                    var jsonResponseParse = JSON.parse(xhr.responseText);
+                    if (jsonResponseParse.title) {
+                      resolve(jsonResponseParse.title);
+                    }
                 }
             }
-            xhr.open("GET", "http://textance.herokuapp.com/title/" + this.url, true);
+            // TODO : Review this URL to get the correct JSON
+            // https://www.cluemediator.com/how-to-get-title-and-meta-tags-from-url-using-php
+            // https://www.learnwappler.com/psweb_get_external_seo_content.php
+            // https://www.learnwappler.com/psweb_get_external_seo_content.php?remote_query_string=https://www.pukkatravels.com
+            // http://textance.herokuapp.com/title/
+            xhr.responseType = 'json';
+            xhr.open("GET", "https://www.learnwappler.com/psweb_get_external_seo_content.php?remote_query_string=" + this.url, true);
             xhr.send(null);
         });
     }
