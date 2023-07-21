@@ -24,7 +24,7 @@ class DownloadManager extends EventEmitter {
         this.setLimiter(true);
     }
 
-    appendDownload(begin, id, name, url, time) {
+    async appendDownload(begin, id, name, url, time) {
         let download = new Download(id, name, url, time);
 
         download.on("status-changed", () => {
@@ -44,13 +44,14 @@ class DownloadManager extends EventEmitter {
             };
     
             try {
-                prependFile(ppath + "/json/downloads/downloads.json", JSON.stringify(Data) + "\n", (err) => {
+                /*prependFile(ppath + "/json/downloads/downloads.json", JSON.stringify(Data) + "\n", (err) => {
                     if(err) {
                         saveFileToJsonFolder("downloads", "downloads", JSON.stringify(Data)).then(() => {
                     
                         });
                     }
-                });
+                });*/
+                await prependFile(ppath + "/json/downloads/downloads.json", JSON.stringify(Data) + "\n");
             } catch (error) {
                 saveFileToJsonFolder("downloads", "downloads", JSON.stringify(Data)).then(() => {
                     

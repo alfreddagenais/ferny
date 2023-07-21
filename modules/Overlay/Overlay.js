@@ -17,7 +17,9 @@ class Overlay extends EventEmitter {
         
         this.view = new BrowserView({
             webPreferences: {
-                nodeIntegration: true
+              nodeIntegration: true,
+              contextIsolation: false,
+              enableRemoteModule: true,
             }
         });
         this.view.setAutoResize({

@@ -52,13 +52,16 @@ class HistoryManager extends EventEmitter {
             this.historyContainer.insertBefore(historyItem.getNode(), this.historyContainer.children[0]);
         }
 
-        historyItem.on("title-updated", (title) => {
+        historyItem.on("title-updated", async (title) => {
             Data.title = title;
             
             try {
-                prependFile(ppath + "/json/history/history.json", JSON.stringify(Data) + "\n", (err) => {
-                    saveFileToJsonFolder("history", "history-counter", this.historyCounter);
-                });
+                //prependFile(ppath + "/json/history/history.json", JSON.stringify(Data) + "\n", (err) => {
+                //    saveFileToJsonFolder("history", "history-counter", this.historyCounter);
+                //});
+                await prependFile(ppath + "/json/history/history.json", JSON.stringify(Data) + "\n");
+                saveFileToJsonFolder("history", "history-counter", this.historyCounter);
+
             } catch (error) {
                 saveFileToJsonFolder("history", "history", JSON.stringify(Data)).then(() => {
                     saveFileToJsonFolder("history", "history-counter", this.historyCounter);

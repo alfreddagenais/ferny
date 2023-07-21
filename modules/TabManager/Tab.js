@@ -315,7 +315,9 @@ class Tab extends EventEmitter {
     }
 
     close() {
-        this.view.destroy();
+        // TODO: Validate if need to delete this.view, for memory usage?
+        //this.window.setBrowserView(null);
+        //this.view.webContents.destroy();
         this.window.webContents.send("tabRenderer-closeTab", this.id);
 
         this.emit("close", this);

@@ -13,6 +13,7 @@ const { ipcMain, app, Menu, BrowserWindow, dialog, clipboard, session, shell } =
 const { autoUpdater } = require("electron-updater");
 const os = require("os");
 const fs = require("fs");
+const path = require("path");
 const ppath = require("persist-path")("Ferny");
 
 const saveFileToJsonFolder = require(app.getAppPath() + "/modules/saveFileToJsonFolder.js");
@@ -101,8 +102,9 @@ app.on("window-all-closed", () => {
   }
 });
 
-app.on("ready", () => {
-  app.setUserTasks([{
+app.whenReady().then(() => {
+  if (os.platform() === 'win32') {
+    app.setUserTasks([{
       program: process.execPath,
       arguments: "--new-tab",
       iconPath: process.execPath,
@@ -116,8 +118,11 @@ app.on("ready", () => {
       iconIndex: 0,
       title: "Show overlay",
       description: "Open the overlay tab"
-    }
-  ]);
+    }])
+  }
+})
+
+app.on("ready", () => {
 
   autoUpdater.logger = require("electron-log");
   autoUpdater.logger.transports.file.level = "info";
@@ -1288,7 +1293,9 @@ function showAboutWindow() {
           frame: winControls.systemTitlebar,
           icon: app.getAppPath() + "/imgs/icon.ico",
           webPreferences: {
-            nodeIntegration: true
+            nodeIntegration: true,
+            contextIsolation: false,
+            enableRemoteModule: true,
           },
           backgroundColor: backgroundColor
         });
@@ -1333,7 +1340,9 @@ function showSettingsWindow(categoryId) {
           show: false,
           icon: app.getAppPath() + "/imgs/icon.ico",
           webPreferences: {
-            nodeIntegration: true
+            nodeIntegration: true,
+            contextIsolation: false,
+            enableRemoteModule: true,
           },
           backgroundColor: backgroundColor
         });
@@ -1385,15 +1394,17 @@ function showMainWindow() {
           minWidth: 400, minHeight: 240,
           frame: winControls.systemTitlebar,
           // show: false,
-          icon: app.getAppPath() + "/imgs/icon.ico",
+          // icon: app.getAppPath() + "/imgs/icon.ico",
           webPreferences: {
-            nodeIntegration: true
+            nodeIntegration: true,
+            contextIsolation: false,
+            enableRemoteModule: true,
           },
           backgroundColor: backgroundColor
         });
       
         mainWindow.loadFile(app.getAppPath() + "/html/browser.html");
-      
+
         mainWindow.webContents.on("context-menu", (event, params) => {
           if(params.isEditable) {
             let searchMenu = Menu.buildFromTemplate([
@@ -1573,7 +1584,9 @@ function toggleFullscreen() {
 function checkForUpdates() {
   if(updateCancellationToken == null) {
     autoUpdater.checkForUpdates().then((downloadPromise) => {
-      updateCancellationToken = downloadPromise.cancellationToken;
+      if(downloadPromise){
+        updateCancellationToken = downloadPromise.cancellationToken;
+      }
     });
   } else {
     mainWindow.webContents.send("notificationManager-addStatusNotif", { type: "warning", text: "The update has already started" });
@@ -1599,7 +1612,9 @@ function showWelcomeWindow() {
       maximizable: false,
       resizable: false,
       webPreferences: {
-        nodeIntegration: true
+        nodeIntegration: true,
+        contextIsolation: false,
+        enableRemoteModule: true,
       },
       backgroundColor: theme.colorBack
     }); 

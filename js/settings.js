@@ -10,7 +10,7 @@
 */
 
 const { ipcRenderer } = require("electron");
-const dialog = require("electron").remote.dialog;
+// const dialog = require("electron").remote.dialog;
 const ppath = require("persist-path")("Ferny");
 const fs = require("fs");
 const path = require("path");
